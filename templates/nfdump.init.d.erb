@@ -20,7 +20,7 @@
 
   args.push '-w' if @align
   args.push "-B #{@bufferlen}"
-  args.push '-z'  if @compress
+  args.push '-z' if @compress
   args.push "-l #{data_base_dir}" if @hosts.empty?
   args.push "-T #{@extensions}"
   args.push "-t #{@interval}"
