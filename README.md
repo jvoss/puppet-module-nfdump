@@ -27,6 +27,11 @@ $hosts::           '-n': Array of Strings. <Ident,IP,base_directory>
 ## Sample Usage:
 
 ```ruby
+ # Very simple setup with all defaults and a custom directory
+ class { 'nfdump':
+   data_base_dir => '/tmp/flowdata'
+ }
+
  # Multiple hosts with separate directories and ramdisk
  class { 'nfdump':
    use_ramdisk   => true,

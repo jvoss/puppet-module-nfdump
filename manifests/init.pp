@@ -28,6 +28,11 @@
 #
 # == Sample Usage:
 #
+#   # Very simple setup with all defaults and a custom directory
+#   class { 'nfdump':
+#     data_base_dir => '/tmp/flowdata'
+#   }
+#
 #   # Multiple hosts with separate directories and ramdisk
 #   class { 'nfdump':
 #     use_ramdisk   => true,
