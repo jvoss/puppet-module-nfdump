@@ -44,7 +44,7 @@ $hosts::           '-n': Array of Strings. <Ident,IP,base_directory>
    extensions    => 'all',
    interval      => 300,
    port          => 9995,
-   sub_hierarchy = 2
+   sub_hierarchy => 2
 
    hosts => [ 'host1,192.168.1.1,/ramdisk/host1',
               'host2,192.168.1.2,/ramdisk/host2'
