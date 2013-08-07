@@ -4,9 +4,12 @@
 #
 # == Parameters:
 #
-# $use_ramdisk::     Boolean. Mounts a ramdisk, uses the $data_base_dir for the base 
-#                    of the RAM disk.
-# $ramdisk_size::    The size of the RAM disk if $use_ramdisk is true
+# $use_with_nfsen::   Boolean. Use with nfsen package. Only parameter needed if this
+#                     is true. Nfsen will control nfdump.
+#
+# $use_ramdisk::      Boolean. Mounts a ramdisk, uses the $data_base_dir for the base 
+#                     of the RAM disk.
+# $ramdisk_size::     The size of the RAM disk if $use_ramdisk is true
 # 
 # nfdump options:
 # $align::           '-w': Boolean. Align file rotation with next minute specified 
@@ -27,6 +30,11 @@
 # Nothing.
 #
 # == Sample Usage:
+#
+#   # Use with nfsen
+#   class { 'nfdump':
+#     use_with_nfsen => true
+#   }  
 #
 #   # Very simple setup with all defaults and a custom directory
 #   class { 'nfdump':
@@ -52,7 +60,8 @@
 #              ]
 #   }
 #
-class nfdump ( $use_ramdisk     = false,
+class nfdump ( $use_with_nfsen  = false,
+               $use_ramdisk     = false,
                $ramdisk_size    = '',
                $align           = true,
                $bufferlen       = 128000,
@@ -76,24 +85,6 @@ class nfdump ( $use_ramdisk     = false,
         ensure  => 'installed'
       }
 
-      file { '/etc/default/nfdump':
-	backup  => false,
-        before  => Service['nfdump'],
-        content => "#nfcapd is controlled by nfsen\nnfcapd_start=yes\n",
-        ensure  => file,
-        mode    => 644, 
-        path    => '/etc/default/nfdump'
-      }
-
-      file { '/etc/init.d/nfdump':
-        backup  => false,
-        before  => Service['nfdump'],
-        content => template('nfdump/nfdump.init.d.erb'),
-        ensure  => file,
-        mode    => 755,
-        require => package['nfdump']
-      }
-
       if $use_ramdisk {
         file { $data_base_dir:
           before  => Mount[$data_base_dir],
@@ -110,9 +101,38 @@ class nfdump ( $use_ramdisk     = false,
         }
       }
 
-      service { 'nfdump':
-        enable  => true,
-        ensure  => 'running',
+      if !$use_with_nfsen {
+        
+        file { '/etc/init.d/nfdump':
+          backup  => false,
+          before  => Service['nfdump'],
+          content => template('nfdump/nfdump.init.d.erb'),
+          ensure  => file,
+          mode    => 755,
+          require => package['nfdump']
+        }
+
+        file { '/etc/default/nfdump':
+	  backup  => false,
+          before  => Service['nfdump'],
+          content => "#nfcapd is controlled by nfsen\nnfcapd_start=yes\n",
+          ensure  => file,
+          mode    => 644, 
+          path    => '/etc/default/nfdump'
+        }
+
+        service { 'nfdump':
+          enable  => true,
+          ensure  => 'running',
+        }
+
+      } else {
+              
+        service { 'nfdump':
+      	  enable  => false,
+          ensure  => 'stopped',
+        }
+
       }
 
     } # ubuntu
