@@ -47,7 +47,7 @@
 #              ]
 #   }
 #
-class nfdump ( $use_ram_disk    = false,
+class nfdump ( $use_ramdisk     = false,
                $ramdisk_size    = '',
                $align           = true,
                $bufferlen       = 128000,
