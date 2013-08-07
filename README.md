@@ -49,6 +49,6 @@ $hosts::           '-n': Array of Strings. <Ident,IP,base_directory>
    hosts => [ 'host1,192.168.1.1,/ramdisk/host1',
               'host2,192.168.1.2,/ramdisk/host2'
             ]
-  }
+ }
 ```
 
