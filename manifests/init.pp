@@ -56,7 +56,7 @@ class nfdump ( $use_ramdisk     = false,
                $extensions      = 'all',
                $interval        = 300,
                $port            = 9995,
-               $sub_heirarchy   = 2,
+               $sub_hierarchy   = 2,
                $packet_repeater = [],
                $hosts           = []
              )
