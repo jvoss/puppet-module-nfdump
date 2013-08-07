@@ -5,11 +5,11 @@ A puppet module that installs/configures/manages nfdump.
 ## Parameters
 
 ```ruby
-$use_ramdisk::  Boolean. Mounts a ramdisk, uses the $data_base_dir for the base
-                 of the RAM disk.
-$ramdisk_size:: The size of the RAM disk if $use_ramdisk is true
+$use_ramdisk::     Boolean. Mounts a ramdisk, uses the $data_base_dir for the base
+                   of the RAM disk.
+$ramdisk_size::    The size of the RAM disk if $use_ramdisk is true
 
-nfdump options:
+#nfdump options:
 $align::           '-w': Boolean. Align file rotation with next minute specified
                          by interval
 $bufferlen::       '-B': Integer. Specify the socket input buffer length in bytes.
